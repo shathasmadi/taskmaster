@@ -9,7 +9,9 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.TaskMaster">
-        <activity android:name=".AllTask"></activity>
+        <activity android:name=".Setting"></activity>
+        <activity android:name=".TaskDetails" />
+        <activity android:name=".AllTask" />
         <activity android:name=".AddTask" />
         <activity android:name=".MainActivity">
             <intent-filter>
