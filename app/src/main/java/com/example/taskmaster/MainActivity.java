@@ -3,9 +3,12 @@ package com.example.taskmaster;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.view.View;
 import android.widget.Button;
+import android.widget.TextView;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -33,5 +36,55 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        Button shoppingButton = findViewById(R.id.shoppingButton);
+        shoppingButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent goShopping =new Intent(MainActivity.this,TaskDetails.class);
+                String title=shoppingButton.getText().toString();
+                goShopping.putExtra("title",title);
+                startActivity(goShopping);
+            }
+        });
+
+        Button readingButton = findViewById(R.id.readingButton);
+       readingButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent goReading =new Intent(MainActivity.this,TaskDetails.class);
+                String title=readingButton.getText().toString();
+                goReading.putExtra("title",title);
+                startActivity(goReading);
+            }
+        });
+
+        Button codingButton = findViewById(R.id.codingButton);
+        codingButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent goCoding =new Intent(MainActivity.this,TaskDetails.class);
+                String title=codingButton.getText().toString();
+                goCoding.putExtra("title",title);
+                startActivity(goCoding);
+            }
+        });
+
+        Button settingButton = findViewById(R.id.settingButton);
+        settingButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent goSetting =new Intent(MainActivity.this,Setting.class);
+                startActivity(goSetting);
+            }
+        });
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        SharedPreferences share = PreferenceManager.getDefaultSharedPreferences(MainActivity.this);
+        String name = share.getString("username","User");
+        TextView text = findViewById(R.id.view);
+        text.setText(name);
     }
 }
