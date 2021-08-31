@@ -1,6 +1,8 @@
 package com.example.taskmaster;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -9,6 +11,9 @@ import android.preference.PreferenceManager;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -35,39 +40,39 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(allTask);
             }
         });
-
-        Button shoppingButton = findViewById(R.id.shoppingButton);
-        shoppingButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent goShopping =new Intent(MainActivity.this,TaskDetails.class);
-                String title=shoppingButton.getText().toString();
-                goShopping.putExtra("title",title);
-                startActivity(goShopping);
-            }
-        });
-
-        Button readingButton = findViewById(R.id.readingButton);
-       readingButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent goReading =new Intent(MainActivity.this,TaskDetails.class);
-                String title=readingButton.getText().toString();
-                goReading.putExtra("title",title);
-                startActivity(goReading);
-            }
-        });
-
-        Button codingButton = findViewById(R.id.codingButton);
-        codingButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent goCoding =new Intent(MainActivity.this,TaskDetails.class);
-                String title=codingButton.getText().toString();
-                goCoding.putExtra("title",title);
-                startActivity(goCoding);
-            }
-        });
+//
+//        Button shoppingButton = findViewById(R.id.shoppingButton);
+//        shoppingButton.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                Intent goShopping =new Intent(MainActivity.this,TaskDetails.class);
+//                String title=shoppingButton.getText().toString();
+//                goShopping.putExtra("title",title);
+//                startActivity(goShopping);
+//            }
+//        });
+//
+//        Button readingButton = findViewById(R.id.readingButton);
+//       readingButton.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                Intent goReading =new Intent(MainActivity.this,TaskDetails.class);
+//                String title=readingButton.getText().toString();
+//                goReading.putExtra("title",title);
+//                startActivity(goReading);
+//            }
+//        });
+//
+//        Button codingButton = findViewById(R.id.codingButton);
+//        codingButton.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                Intent goCoding =new Intent(MainActivity.this,TaskDetails.class);
+//                String title=codingButton.getText().toString();
+//                goCoding.putExtra("title",title);
+//                startActivity(goCoding);
+//            }
+//        });
 
         Button settingButton = findViewById(R.id.settingButton);
         settingButton.setOnClickListener(new View.OnClickListener() {
@@ -77,6 +82,18 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(goSetting);
             }
         });
+
+        List<Task> tasks = new ArrayList<>();
+
+        tasks.add(new Task("Reading","Reading Body","new"));
+        tasks.add(new Task("Shopping","Shopping Body","new"));
+        tasks.add(new Task("Coding","Coding Body","new"));
+
+        RecyclerView taskDataRecuclerView = findViewById(R.id.recycle);
+
+        taskDataRecuclerView.setLayoutManager(new LinearLayoutManager(this));
+
+        taskDataRecuclerView.setAdapter(new AdaptorTask(tasks));
     }
 
     @Override
