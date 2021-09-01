@@ -89,11 +89,11 @@ public class MainActivity extends AppCompatActivity {
         tasks.add(new Task("Shopping","Shopping Body","new"));
         tasks.add(new Task("Coding","Coding Body","new"));
 
-        RecyclerView taskDataRecuclerView = findViewById(R.id.recycle);
+        RecyclerView taskDataRecyclerView = findViewById(R.id.recycle);
 
-        taskDataRecuclerView.setLayoutManager(new LinearLayoutManager(this));
+        taskDataRecyclerView.setLayoutManager(new LinearLayoutManager(this));
 
-        taskDataRecuclerView.setAdapter(new AdaptorTask(tasks));
+        taskDataRecyclerView.setAdapter(new AdaptorTask(tasks));
     }
 
     @Override
