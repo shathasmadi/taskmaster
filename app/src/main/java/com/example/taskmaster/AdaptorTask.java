@@ -1,5 +1,6 @@
 package com.example.taskmaster;
 
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -46,9 +47,21 @@ public class AdaptorTask extends RecyclerView.Adapter<AdaptorTask.TaskViewHolder
         View itemView;
         public Task task;
 
+
         public TaskViewHolder(@NonNull  View itemView) {
             super(itemView);
            this.itemView=itemView;
+
+           itemView.findViewById(R.id.fragmentButton).setOnClickListener(new View.OnClickListener() {
+               @Override
+               public void onClick(View v) {
+                   Intent intent = new Intent(v.getContext(),TaskDetails.class);
+                   intent.putExtra("Title",task.title);
+                   intent.putExtra("Description",task.body);
+                   intent.putExtra("State",task.state);
+                   v.getContext().startActivity(intent);
+               }
+           });
 
         }
     }

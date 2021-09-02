@@ -1,7 +1,6 @@
 package com.example.taskmaster;
 
 import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -19,7 +18,7 @@ public class AllTask extends AppCompatActivity {
         backButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent AllTask = new Intent(AllTask.this, MainActivity.class);
+                Intent AllTask = new Intent(AllTask.this,MainActivity.class);
                 startActivity(AllTask);
             }
         });
