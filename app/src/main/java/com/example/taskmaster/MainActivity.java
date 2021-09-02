@@ -3,6 +3,7 @@ package com.example.taskmaster;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.room.Room;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -12,7 +13,6 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
@@ -83,17 +83,24 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        List<Task> tasks = new ArrayList<>();
+//        List<Task> tasks = new ArrayList<>();
+//
+//        tasks.add(new Task("Reading","Reading Body","new"));
+//        tasks.add(new Task("Shopping","Shopping Body","new"));
+//        tasks.add(new Task("Coding","Coding Body","new"));
 
-        tasks.add(new Task("Reading","Reading Body","new"));
-        tasks.add(new Task("Shopping","Shopping Body","new"));
-        tasks.add(new Task("Coding","Coding Body","new"));
+        AppDatabase database =  Room.databaseBuilder(getApplicationContext(), AppDatabase.class, "shatha").allowMainThreadQueries().build();
+        TaskDao taskDao = database.taskDao();
 
-        RecyclerView taskDataRecuclerView = findViewById(R.id.recycle);
+        List<Task> tasks= taskDao.taskData();
 
-        taskDataRecuclerView.setLayoutManager(new LinearLayoutManager(this));
 
-        taskDataRecuclerView.setAdapter(new AdaptorTask(tasks));
+
+        RecyclerView taskDataRecyclerView = findViewById(R.id.recycle);
+
+        taskDataRecyclerView.setLayoutManager(new LinearLayoutManager(this));
+
+        taskDataRecyclerView.setAdapter(new AdaptorTask(tasks));
     }
 
     @Override
