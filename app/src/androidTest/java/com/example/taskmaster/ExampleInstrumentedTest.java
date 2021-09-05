@@ -55,12 +55,7 @@ public class ExampleInstrumentedTest {
 
 
     }
-//    @Test
-//    public void taskDetailsTest(){
-//        onView(withId(R.id.fragmentButton)).check(matches(isDisplayed())).perform(click());
-//        onView(withText("Reading Task")).check(matches(isDisplayed()));
-//
-//    }
+
 
    }
 
