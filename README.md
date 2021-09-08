@@ -12,6 +12,8 @@
 
 ![image](screenshot/imageFour.png)
 
+***
+
 ## Lab 27 :
 
 
@@ -34,6 +36,8 @@ The homepage should also contain a button to visit the Settings page, and once t
 
 ![image](screenshot/imageSix.png)
 
+***
+
 ## lab 28 :
 
 # Task Model
@@ -52,6 +56,8 @@ Some steps you will likely want to take to accomplish this:
 Ensure that you can tap on any one of the Tasks in the RecyclerView, and it will appropriately launch the detail page with the correct Task title displayed.
 
 ![image](screenshot/imageEight.png)
+
+***
 
 ## lab 29 :
 
@@ -76,3 +82,25 @@ Ensure that you can tap on any one of the Tasks in the RecyclerView, and it will
 - Ensure that the description and status of a tapped task are also displayed on the detail page, in addition to the title. (Note that you can accomplish this by passing along the entire Task entity, or by passing along only its ID in the intent.)
 
 ![image](screenshot/image10.png)
+
+***
+
+## lab 31: 
++ added Espresso testing to the application.
++ testing for the buttons on home page of they have the proper naming.
++ testing the add task fuctionality and check if it apears in Main page.
++ testing the setting page changing username functionality and check if it apears on main page.
+
+ ***
+## lab 32 :
+
+- Is to use AWS Amplify as a backend. 
+
+## Feature Tasks
+- To use AWS Amplify to access the application data in DynamoDB instead of in Room.
+
+## Add Task Form
+- Modify your Add Task form to save the data entered in as a Task to DynamoDB.
+
+## Homepage
+- Refactor homepage’s RecyclerView to display all Task entities in DynamoDB.
