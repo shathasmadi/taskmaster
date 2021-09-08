@@ -1,5 +1,6 @@
 package com.example.taskmaster;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -8,6 +9,9 @@ import androidx.room.Room;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
+import android.os.Message;
 import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.View;
@@ -20,6 +24,7 @@ import com.amplifyframework.api.graphql.model.ModelQuery;
 import com.amplifyframework.core.Amplify;
 import com.amplifyframework.datastore.generated.model.TaskMaster;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
@@ -103,28 +108,35 @@ public class MainActivity extends AppCompatActivity {
 //        tasks.add(new Task("Shopping","Shopping Body","new"));
 //        tasks.add(new Task("Coding","Coding Body","new"));
 
-        AppDatabase database =  Room.databaseBuilder(getApplicationContext(), AppDatabase.class, "shatha").allowMainThreadQueries().build();
-        TaskDao taskDao = database.taskDao();
+//        AppDatabase database =  Room.databaseBuilder(getApplicationContext(), AppDatabase.class, "shatha").allowMainThreadQueries().build();
+//        TaskDao taskDao = database.taskDao();
+//
+//        List<Task> tasks= taskDao.taskData();
 
-        List<Task> tasks= taskDao.taskData();
+        RecyclerView taskDataRecyclerView = findViewById(R.id.recycle);
 
+        List<TaskMaster> tasks= new ArrayList<>();
 
+        Handler handler =new Handler(Looper.getMainLooper(), new Handler.Callback() {
+            @Override
+            public boolean handleMessage(@NonNull Message msg) {
+                taskDataRecyclerView.getAdapter().notifyDataSetChanged();
+                return false;
+            }
+        });
         Amplify.API.query(
                 ModelQuery.list(TaskMaster.class),
                 response -> {
                     for (TaskMaster todo : response.getData()) {
                         Log.i("MyAmplifyApp", todo.getTitle());
+
+                        tasks.add(todo);
                     }
+                    handler.sendEmptyMessage(1);
                 },
                 error -> Log.e("MyAmplifyApp", "Query failure", error)
         );
 
-
-
-
-
-
-        RecyclerView taskDataRecyclerView = findViewById(R.id.recycle);
 
         taskDataRecyclerView.setLayoutManager(new LinearLayoutManager(this));
 

@@ -9,13 +9,15 @@ import android.widget.Button;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.amplifyframework.datastore.generated.model.TaskMaster;
+
 import java.util.ArrayList;
 import java.util.List;
 
 public class AdaptorTask extends RecyclerView.Adapter<AdaptorTask.TaskViewHolder> {
-   List<Task> taskData=new ArrayList<>();
+   List<TaskMaster> taskData=new ArrayList<>();
 
-    public AdaptorTask(List<Task> taskData) {
+    public AdaptorTask(List<TaskMaster> taskData) {
         this.taskData = taskData;
     }
 
@@ -32,7 +34,7 @@ public class AdaptorTask extends RecyclerView.Adapter<AdaptorTask.TaskViewHolder
     public void onBindViewHolder(@NonNull  AdaptorTask.TaskViewHolder holder, int position) {
         holder.task = taskData.get(position);
         Button fragment= holder.itemView.findViewById(R.id.fragmentButton);
-        fragment.setText(holder.task.title);
+        fragment.setText(holder.task.getTitle());
 
 
     }
@@ -45,7 +47,7 @@ public class AdaptorTask extends RecyclerView.Adapter<AdaptorTask.TaskViewHolder
     public static  class TaskViewHolder extends RecyclerView.ViewHolder{
 
         View itemView;
-        public Task task;
+        public TaskMaster task;
 
 
         public TaskViewHolder(@NonNull  View itemView) {
@@ -56,9 +58,9 @@ public class AdaptorTask extends RecyclerView.Adapter<AdaptorTask.TaskViewHolder
                @Override
                public void onClick(View v) {
                    Intent intent = new Intent(v.getContext(),TaskDetails.class);
-                   intent.putExtra("Title",task.title);
-                   intent.putExtra("Description",task.body);
-                   intent.putExtra("State",task.state);
+                   intent.putExtra("Title",task.getTitle());
+                   intent.putExtra("Description",task.getBody());
+                   intent.putExtra("State",task.getState());
                    v.getContext().startActivity(intent);
                }
            });
