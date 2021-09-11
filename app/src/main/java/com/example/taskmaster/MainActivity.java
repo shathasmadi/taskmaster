@@ -4,8 +4,6 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-import androidx.room.Room;
-
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -20,9 +18,11 @@ import android.widget.TextView;
 
 import com.amplifyframework.AmplifyException;
 import com.amplifyframework.api.aws.AWSApiPlugin;
+import com.amplifyframework.api.graphql.model.ModelMutation;
 import com.amplifyframework.api.graphql.model.ModelQuery;
 import com.amplifyframework.core.Amplify;
 import com.amplifyframework.datastore.generated.model.TaskMaster;
+import com.amplifyframework.datastore.generated.model.Team;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -41,6 +41,36 @@ public class MainActivity extends AppCompatActivity {
         } catch (AmplifyException error) {
             Log.e("MyAmplifyApp", "Could not initialize Amplify", error);
         }
+
+
+
+//
+//       Team team = Team.builder()
+//                .name("Hanaa")
+//                .build();
+//
+//        Amplify.API.mutate(
+//                ModelMutation.create(team),
+//                response -> Log.i("MyAmplifyApp", "Added Todo with id: " + response.getData().getId()),
+//                error -> Log.e("MyAmplifyApp", "Create failed", error));
+//
+//
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
         Button addTask= (Button) findViewById(R.id.but);
         addTask.setOnClickListener(new View.OnClickListener() {
@@ -116,6 +146,7 @@ public class MainActivity extends AppCompatActivity {
         RecyclerView taskDataRecyclerView = findViewById(R.id.recycle);
 
         List<TaskMaster> tasks= new ArrayList<>();
+        List<Team> teams=new ArrayList<>();
 
         Handler handler =new Handler(Looper.getMainLooper(), new Handler.Callback() {
             @Override
@@ -124,14 +155,27 @@ public class MainActivity extends AppCompatActivity {
                 return false;
             }
         });
-        Amplify.API.query(
-                ModelQuery.list(TaskMaster.class),
-                response -> {
-                    for (TaskMaster todo : response.getData()) {
-                        Log.i("MyAmplifyApp", todo.getTitle());
 
-                        tasks.add(todo);
+
+        SharedPreferences share = PreferenceManager.getDefaultSharedPreferences(MainActivity.this);
+        String name = share.getString("teamName","User");
+
+
+        Amplify.API.query(
+                ModelQuery.list(Team.class),
+                response -> {
+                    for (Team team : response.getData()) {
+                        Log.i("MyAmplifyApp", team.getName());
+
+                        teams.add(team);
                     }
+
+                    for (int i = 0; i < teams.size(); i++) {
+                        if (teams.get(i).getName().equals(name)){
+                            tasks.addAll(teams.get(i).getTasks());
+                        }
+                    }
+
                     handler.sendEmptyMessage(1);
                 },
                 error -> Log.e("MyAmplifyApp", "Query failure", error)
@@ -144,7 +188,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     @Override
-    protected void onStart() {
+    protected void onStart(){
         super.onStart();
         SharedPreferences share = PreferenceManager.getDefaultSharedPreferences(MainActivity.this);
         String name = share.getString("username","User");
