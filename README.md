@@ -104,3 +104,8 @@ Ensure that you can tap on any one of the Tasks in the RecyclerView, and it will
 
 ## Homepage
 - Refactor homepage’s RecyclerView to display all Task entities in DynamoDB.
+
+
+## lab 33 :
+
+- In this lab the add task activity now add the new task to the amplify api with the team, also in the settings activity the user now can choose his team and the tasks will appear in the homepage based on his team.

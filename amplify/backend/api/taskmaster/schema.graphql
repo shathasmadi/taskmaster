@@ -1,6 +1,14 @@
-type TaskMaster @model {
- id: ID!
- title: String!
- body: String
- state:String
+type TaskMaster @model @key(name: "byTeam", fields: ["teamID"]) {
+  id: ID!
+  title: String!
+  body: String
+  state: String
+  teamID: ID!
+  team: Team @connection(fields: ["teamID"])
+}
+
+type Team @model {
+  id: ID!
+  name: String
+  tasks: [TaskMaster]  @connection(keyName: "byTeam", fields: ["id"])
 }
