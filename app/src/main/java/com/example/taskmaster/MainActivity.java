@@ -57,21 +57,6 @@ public class MainActivity extends AppCompatActivity {
 //
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
         Button addTask= (Button) findViewById(R.id.but);
         addTask.setOnClickListener(new View.OnClickListener() {
             @Override
