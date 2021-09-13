@@ -18,8 +18,8 @@ import android.widget.TextView;
 
 import com.amplifyframework.AmplifyException;
 import com.amplifyframework.api.aws.AWSApiPlugin;
-import com.amplifyframework.api.graphql.model.ModelMutation;
 import com.amplifyframework.api.graphql.model.ModelQuery;
+import com.amplifyframework.auth.cognito.AWSCognitoAuthPlugin;
 import com.amplifyframework.core.Amplify;
 import com.amplifyframework.datastore.generated.model.TaskMaster;
 import com.amplifyframework.datastore.generated.model.Team;
@@ -36,13 +36,41 @@ public class MainActivity extends AppCompatActivity {
 
         try {
             Amplify.addPlugin(new AWSApiPlugin());
+            Amplify.addPlugin(new AWSCognitoAuthPlugin());
             Amplify.configure(getApplicationContext());
             Log.i("MyAmplifyApp", "Initialized Amplify");
         } catch (AmplifyException error) {
             Log.e("MyAmplifyApp", "Could not initialize Amplify", error);
         }
 
+        Button logout = findViewById(R.id.logoutButton);
+        logout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Amplify.Auth.signOut(
+                        () -> Log.i("AuthQuickstart", "Signed out successfully"),
+                        error -> Log.e("AuthQuickstart", error.toString())
+                );
+            }
+        });
 
+        Amplify.Auth.signInWithWebUI(
+                this,
+                result -> Log.i("AuthQuickStart", result.toString()),
+                error -> Log.e("AuthQuickStart", error.toString())
+        );
+
+
+//        Amplify.Auth.fetchUserAttributes(
+//                attributes -> Log.i("AuthDemo", "User attributes = " + attributes.toString()),
+//                error -> Log.e("AuthDemo", "Failed to fetch user attributes.", error)
+//        );
+
+
+//        Amplify.Auth.fetchAuthSession(
+//                result -> Log.i("AmplifyQuickstart", result.toString()),
+//                error -> Log.e("AmplifyQuickstart", error.toString())
+//        );
 
 //
 //       Team team = Team.builder()
@@ -55,21 +83,6 @@ public class MainActivity extends AppCompatActivity {
 //                error -> Log.e("MyAmplifyApp", "Create failed", error));
 //
 //
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
         Button addTask= (Button) findViewById(R.id.but);
@@ -131,6 +144,7 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(goSetting);
             }
         });
+
 
 //        List<Task> tasks = new ArrayList<>();
 //
