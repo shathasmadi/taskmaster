@@ -25,8 +25,7 @@ public class AddTaskTest {
             new ActivityScenarioRule<>(MainActivity.class);
     @Test
     public void addTaskTest(){
-
-    onView(withId(R.id.but)).check(matches(isDisplayed())).perform(click());
+        onView(withId(R.id.but)).check(matches(isDisplayed())).perform(click());
         onView(withId(R.id.taskTitleView)).check(matches(isDisplayed())).perform(typeText("Espresso Task"));
         onView(withId(R.id.taskDescriptionView)).check(matches(isDisplayed())).perform(typeText("Espresso Description"));
         onView(withId(R.id.taskStateView)).check(matches(isDisplayed())).perform(typeText("Espresso State"));
