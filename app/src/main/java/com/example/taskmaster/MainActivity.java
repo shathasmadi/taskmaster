@@ -47,8 +47,16 @@ public class MainActivity extends AppCompatActivity {
         logout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
                 Amplify.Auth.signOut(
-                        () -> Log.i("AuthQuickstart", "Signed out successfully"),
+                        () -> {
+                            Log.i("AuthQuickstart", "Signed out successfully");
+                            Amplify.Auth.signInWithWebUI(
+                                    MainActivity.this,
+                                    result -> Log.i("AuthQuickStart", result.toString()),
+                                    error -> Log.e("AuthQuickStart", error.toString())
+                            );
+                        },
                         error -> Log.e("AuthQuickstart", error.toString())
                 );
             }
@@ -61,10 +69,7 @@ public class MainActivity extends AppCompatActivity {
         );
 
 
-//        Amplify.Auth.fetchUserAttributes(
-//                attributes -> Log.i("AuthDemo", "User attributes = " + attributes.toString()),
-//                error -> Log.e("AuthDemo", "Failed to fetch user attributes.", error)
-//        );
+
 
 
 //        Amplify.Auth.fetchAuthSession(
@@ -207,6 +212,6 @@ public class MainActivity extends AppCompatActivity {
         SharedPreferences share = PreferenceManager.getDefaultSharedPreferences(MainActivity.this);
         String name = share.getString("username","User");
         TextView text = findViewById(R.id.view);
-        text.setText(name);
+        text.setText(com.amazonaws.mobile.client.AWSMobileClient.getInstance().getUsername());
     }
 }
