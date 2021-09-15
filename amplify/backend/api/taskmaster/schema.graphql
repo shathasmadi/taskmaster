@@ -3,6 +3,7 @@ type TaskMaster @model @key(name: "byTeam", fields: ["teamID"]) {
   title: String!
   body: String
   state: String
+ 
   teamID: ID!
   team: Team @connection(fields: ["teamID"])
 }

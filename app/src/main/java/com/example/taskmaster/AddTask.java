@@ -98,7 +98,7 @@ public class AddTask extends AppCompatActivity {
                         .state(taskState.getText().toString())
                         .team(teamOne)
                         .build();
-
+                System.out.println("shatha");
                 Amplify.API.mutate(
                         ModelMutation.create(todo),
                         response -> Log.i("MyAmplifyApp", "Added Todo with id: " + response.getData().getId()),
