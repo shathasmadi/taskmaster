@@ -125,3 +125,21 @@ Add Cognito to your Amplify setup. Add in user login and sign up flows to your a
 Allow users to log out of your application.
 
 ![LogOut](screenshot/logout.png)
+
+
+
+## lab 37:
+
+   - Is to allow users to upload files related to tasks, like screenshots or log files.
+
+## Feature Tasks
+
+# Uploads
+
+   - On the Add a Task activity, allow users to optionally select a file to attach to that task.
+   - If a user attaches a file to a task, that file should be uploaded to S3, and associated with that task.
+
+# Displaying Files
+
+- On the Task detail activity.
+- If there is a file that is an image associated with a particular Task, that image should be displayed within that activity.

@@ -30,10 +30,8 @@ public class AddTask extends AppCompatActivity {
     String picture="";
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_add_task);
-
+    protected void onStart() {
+        super.onStart();
 
         List<Team> teams=new ArrayList<>();
 
@@ -50,13 +48,13 @@ public class AddTask extends AppCompatActivity {
         );
 
 
-      Button uploadPicture =findViewById(R.id.button3);
-      uploadPicture.setOnClickListener(new View.OnClickListener() {
-        @Override
-        public void onClick(View v) {
-           getFile();
-         }
-      });
+        Button uploadPicture =findViewById(R.id.button3);
+        uploadPicture.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+               getFile();
+            }
+        });
 
 
 
@@ -84,7 +82,7 @@ public class AddTask extends AppCompatActivity {
                 RadioButton shathaButton = findViewById(R.id.radioButtonTwo);
                 RadioButton smadiButton = findViewById(R.id.radioButtonThree);
 
-                  String checkedButton = "";
+                String checkedButton = "";
 
                 if(hanaaButton.isChecked()){
                     checkedButton = hanaaButton.getText().toString();
@@ -104,7 +102,6 @@ public class AddTask extends AppCompatActivity {
                 }
 
 
-
                 TaskMaster todo = TaskMaster.builder()
                         .title(taskTitle.getText().toString())
                         .body(taskDescription.getText().toString())
@@ -122,15 +119,26 @@ public class AddTask extends AppCompatActivity {
             }
         });
 
+    }
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_add_task);
 
     }
+
+
+
+
+
 
 
     public void getFile(){
         Intent intent=new Intent(Intent.ACTION_GET_CONTENT);
         intent.setType("*/*");
         intent=Intent.createChooser(intent,"get file");
-        startActivityForResult(intent,1521997);
+        startActivityForResult(intent,1997);
 
     }
 
@@ -140,13 +148,14 @@ public class AddTask extends AppCompatActivity {
 
 
         try {
+            assert data != null;
             InputStream exampleInputStream = getContentResolver().openInputStream(data.getData());
 
-            picture = data.getData().toString();
+            picture = data.getData().getPath().toString();
 
 
             Amplify.Storage.uploadInputStream(
-                    data.getData().toString(),
+                    data.getData().getPath().toString(),
                     exampleInputStream,
                     result -> Log.i("MyAmplifyApp", "Successfully uploaded: " + result.getKey()),
                     storageFailure -> Log.e("MyAmplifyApp", "Upload failed", storageFailure)
