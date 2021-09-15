@@ -1,8 +1,10 @@
 package com.example.taskmaster;
 
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.room.Room;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -17,10 +19,15 @@ import com.amplifyframework.core.Amplify;
 import com.amplifyframework.datastore.generated.model.TaskMaster;
 import com.amplifyframework.datastore.generated.model.Team;
 
+import java.io.FileNotFoundException;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 
 public class AddTask extends AppCompatActivity {
+
+
+    String picture="";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,7 +50,13 @@ public class AddTask extends AppCompatActivity {
         );
 
 
-
+      Button uploadPicture =findViewById(R.id.button3);
+      uploadPicture.setOnClickListener(new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+           getFile();
+         }
+      });
 
 
 
@@ -96,9 +109,11 @@ public class AddTask extends AppCompatActivity {
                         .title(taskTitle.getText().toString())
                         .body(taskDescription.getText().toString())
                         .state(taskState.getText().toString())
+                        .image(picture)
                         .team(teamOne)
                         .build();
-                System.out.println("shatha");
+
+
                 Amplify.API.mutate(
                         ModelMutation.create(todo),
                         response -> Log.i("MyAmplifyApp", "Added Todo with id: " + response.getData().getId()),
@@ -109,4 +124,36 @@ public class AddTask extends AppCompatActivity {
 
 
     }
+
+
+    public void getFile(){
+        Intent intent=new Intent(Intent.ACTION_GET_CONTENT);
+        intent.setType("*/*");
+        intent=Intent.createChooser(intent,"get file");
+        startActivityForResult(intent,1521997);
+
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+
+        try {
+            InputStream exampleInputStream = getContentResolver().openInputStream(data.getData());
+
+            picture = data.getData().toString();
+
+
+            Amplify.Storage.uploadInputStream(
+                    data.getData().toString(),
+                    exampleInputStream,
+                    result -> Log.i("MyAmplifyApp", "Successfully uploaded: " + result.getKey()),
+                    storageFailure -> Log.e("MyAmplifyApp", "Upload failed", storageFailure)
+            );
+        }  catch (FileNotFoundException error) {
+            Log.e("MyAmplifyApp", "Could not find file to open for input stream.", error);
+        }
+    }
+
 }
