@@ -143,3 +143,12 @@ Allow users to log out of your application.
 
 - On the Task detail activity.
 - If there is a file that is an image associated with a particular Task, that image should be displayed within that activity.
+
+
+
+
+## lab38:
+
+- added a notification functionality.
+
+![notification](screenshot/imagetest.png)
