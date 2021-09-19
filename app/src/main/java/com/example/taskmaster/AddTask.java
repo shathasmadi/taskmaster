@@ -33,6 +33,13 @@ public class AddTask extends AppCompatActivity {
     protected void onStart() {
         super.onStart();
 
+        Intent intentRecieving = getIntent();
+        if(intentRecieving.getType() !=null && intentRecieving.getType().equals("text/plain")){
+            EditText taskDescription= findViewById(R.id.taskDescriptionView);
+            taskDescription.setText(intentRecieving.getExtras().get(Intent.EXTRA_TEXT).toString());
+        }
+
+
         List<Team> teams=new ArrayList<>();
 
         Amplify.API.query(
