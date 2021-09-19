@@ -143,3 +143,9 @@ Allow users to log out of your application.
 
 - On the Task detail activity.
 - If there is a file that is an image associated with a particular Task, that image should be displayed within that activity.
+
+
+
+## lab41 :
+
+- adding the ability to make new task from another applications by using the share text.
