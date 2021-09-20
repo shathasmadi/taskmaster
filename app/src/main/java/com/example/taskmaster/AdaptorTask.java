@@ -62,6 +62,8 @@ public class AdaptorTask extends RecyclerView.Adapter<AdaptorTask.TaskViewHolder
                    intent.putExtra("Description",task.getBody());
                    intent.putExtra("State",task.getState());
                    intent.putExtra("picture",task.getImage());
+                   intent.putExtra("Latitude",task.getLatitude());
+                   intent.putExtra("Longitude",task.getLongitude());
                    v.getContext().startActivity(intent);
                }
            });

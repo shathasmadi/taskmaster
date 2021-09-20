@@ -156,3 +156,8 @@ Allow users to log out of your application.
 
 
 
+## lab 42 :
+
+
+- On the Task Detail activity, the location of a Task should be displayed if it exists.
+

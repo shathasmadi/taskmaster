@@ -27,12 +27,16 @@ public final class TaskMaster implements Model {
   public static final QueryField BODY = field("TaskMaster", "body");
   public static final QueryField STATE = field("TaskMaster", "state");
   public static final QueryField IMAGE = field("TaskMaster", "image");
+  public static final QueryField LATITUDE = field("TaskMaster", "Latitude");
+  public static final QueryField LONGITUDE = field("TaskMaster", "Longitude");
   public static final QueryField TEAM = field("TaskMaster", "teamID");
   private final @ModelField(targetType="ID", isRequired = true) String id;
   private final @ModelField(targetType="String", isRequired = true) String title;
   private final @ModelField(targetType="String") String body;
   private final @ModelField(targetType="String") String state;
   private final @ModelField(targetType="String") String image;
+  private final @ModelField(targetType="String") String Latitude;
+  private final @ModelField(targetType="String") String Longitude;
   private final @ModelField(targetType="Team") @BelongsTo(targetName = "teamID", type = Team.class) Team team;
   private @ModelField(targetType="AWSDateTime", isReadOnly = true) Temporal.DateTime createdAt;
   private @ModelField(targetType="AWSDateTime", isReadOnly = true) Temporal.DateTime updatedAt;
@@ -56,6 +60,14 @@ public final class TaskMaster implements Model {
       return image;
   }
   
+  public String getLatitude() {
+      return Latitude;
+  }
+  
+  public String getLongitude() {
+      return Longitude;
+  }
+  
   public Team getTeam() {
       return team;
   }
@@ -68,12 +80,14 @@ public final class TaskMaster implements Model {
       return updatedAt;
   }
   
-  private TaskMaster(String id, String title, String body, String state, String image, Team team) {
+  private TaskMaster(String id, String title, String body, String state, String image, String Latitude, String Longitude, Team team) {
     this.id = id;
     this.title = title;
     this.body = body;
     this.state = state;
     this.image = image;
+    this.Latitude = Latitude;
+    this.Longitude = Longitude;
     this.team = team;
   }
   
@@ -90,6 +104,8 @@ public final class TaskMaster implements Model {
               ObjectsCompat.equals(getBody(), taskMaster.getBody()) &&
               ObjectsCompat.equals(getState(), taskMaster.getState()) &&
               ObjectsCompat.equals(getImage(), taskMaster.getImage()) &&
+              ObjectsCompat.equals(getLatitude(), taskMaster.getLatitude()) &&
+              ObjectsCompat.equals(getLongitude(), taskMaster.getLongitude()) &&
               ObjectsCompat.equals(getTeam(), taskMaster.getTeam()) &&
               ObjectsCompat.equals(getCreatedAt(), taskMaster.getCreatedAt()) &&
               ObjectsCompat.equals(getUpdatedAt(), taskMaster.getUpdatedAt());
@@ -104,6 +120,8 @@ public final class TaskMaster implements Model {
       .append(getBody())
       .append(getState())
       .append(getImage())
+      .append(getLatitude())
+      .append(getLongitude())
       .append(getTeam())
       .append(getCreatedAt())
       .append(getUpdatedAt())
@@ -120,6 +138,8 @@ public final class TaskMaster implements Model {
       .append("body=" + String.valueOf(getBody()) + ", ")
       .append("state=" + String.valueOf(getState()) + ", ")
       .append("image=" + String.valueOf(getImage()) + ", ")
+      .append("Latitude=" + String.valueOf(getLatitude()) + ", ")
+      .append("Longitude=" + String.valueOf(getLongitude()) + ", ")
       .append("team=" + String.valueOf(getTeam()) + ", ")
       .append("createdAt=" + String.valueOf(getCreatedAt()) + ", ")
       .append("updatedAt=" + String.valueOf(getUpdatedAt()))
@@ -156,6 +176,8 @@ public final class TaskMaster implements Model {
       null,
       null,
       null,
+      null,
+      null,
       null
     );
   }
@@ -166,6 +188,8 @@ public final class TaskMaster implements Model {
       body,
       state,
       image,
+      Latitude,
+      Longitude,
       team);
   }
   public interface TitleStep {
@@ -179,6 +203,8 @@ public final class TaskMaster implements Model {
     BuildStep body(String body);
     BuildStep state(String state);
     BuildStep image(String image);
+    BuildStep latitude(String latitude);
+    BuildStep longitude(String longitude);
     BuildStep team(Team team);
   }
   
@@ -189,6 +215,8 @@ public final class TaskMaster implements Model {
     private String body;
     private String state;
     private String image;
+    private String Latitude;
+    private String Longitude;
     private Team team;
     @Override
      public TaskMaster build() {
@@ -200,6 +228,8 @@ public final class TaskMaster implements Model {
           body,
           state,
           image,
+          Latitude,
+          Longitude,
           team);
     }
     
@@ -229,6 +259,18 @@ public final class TaskMaster implements Model {
     }
     
     @Override
+     public BuildStep latitude(String latitude) {
+        this.Latitude = latitude;
+        return this;
+    }
+    
+    @Override
+     public BuildStep longitude(String longitude) {
+        this.Longitude = longitude;
+        return this;
+    }
+    
+    @Override
      public BuildStep team(Team team) {
         this.team = team;
         return this;
@@ -246,12 +288,14 @@ public final class TaskMaster implements Model {
   
 
   public final class CopyOfBuilder extends Builder {
-    private CopyOfBuilder(String id, String title, String body, String state, String image, Team team) {
+    private CopyOfBuilder(String id, String title, String body, String state, String image, String latitude, String longitude, Team team) {
       super.id(id);
       super.title(title)
         .body(body)
         .state(state)
         .image(image)
+        .latitude(latitude)
+        .longitude(longitude)
         .team(team);
     }
     
@@ -273,6 +317,16 @@ public final class TaskMaster implements Model {
     @Override
      public CopyOfBuilder image(String image) {
       return (CopyOfBuilder) super.image(image);
+    }
+    
+    @Override
+     public CopyOfBuilder latitude(String latitude) {
+      return (CopyOfBuilder) super.latitude(latitude);
+    }
+    
+    @Override
+     public CopyOfBuilder longitude(String longitude) {
+      return (CopyOfBuilder) super.longitude(longitude);
     }
     
     @Override

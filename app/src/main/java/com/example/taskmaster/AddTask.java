@@ -1,11 +1,24 @@
 package com.example.taskmaster;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
 import androidx.room.Room;
 
+import android.Manifest;
+import android.annotation.SuppressLint;
+import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.location.Geocoder;
+import android.location.Location;
+import android.location.LocationManager;
+import android.os.Build;
 import android.os.Bundle;
+import android.os.Looper;
+import android.provider.Settings;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -18,6 +31,13 @@ import com.amplifyframework.api.graphql.model.ModelQuery;
 import com.amplifyframework.core.Amplify;
 import com.amplifyframework.datastore.generated.model.TaskMaster;
 import com.amplifyframework.datastore.generated.model.Team;
+import com.google.android.gms.location.FusedLocationProviderClient;
+import com.google.android.gms.location.LocationCallback;
+import com.google.android.gms.location.LocationRequest;
+import com.google.android.gms.location.LocationResult;
+import com.google.android.gms.location.LocationServices;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 
 import java.io.FileNotFoundException;
 import java.io.InputStream;
@@ -25,10 +45,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class AddTask extends AppCompatActivity {
-
-
     String picture="";
 
+    FusedLocationProviderClient mFusedLocationClient;
+    String longitude="";
+    String latitude="";
+
+    @RequiresApi(api = Build.VERSION_CODES.N)
     @Override
     protected void onStart() {
         super.onStart();
@@ -38,6 +61,7 @@ public class AddTask extends AppCompatActivity {
             EditText taskDescription= findViewById(R.id.taskDescriptionView);
             taskDescription.setText(intentRecieving.getExtras().get(Intent.EXTRA_TEXT).toString());
         }
+
 
 
         List<Team> teams=new ArrayList<>();
@@ -62,9 +86,6 @@ public class AddTask extends AppCompatActivity {
                getFile();
             }
         });
-
-
-
 
 
 
@@ -114,6 +135,8 @@ public class AddTask extends AppCompatActivity {
                         .body(taskDescription.getText().toString())
                         .state(taskState.getText().toString())
                         .image(picture)
+                        .latitude(latitude)
+                        .longitude(longitude)
                         .team(teamOne)
                         .build();
 
@@ -133,13 +156,58 @@ public class AddTask extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_task);
 
+
+       mFusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
+
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            // TODO: Consider calling
+            //    ActivityCompat#requestPermissions
+            ActivityCompat.requestPermissions(this, new String[]{
+                    Manifest.permission.ACCESS_COARSE_LOCATION,
+                    Manifest.permission.ACCESS_FINE_LOCATION}, 20);
+
+            boolean test =ActivityCompat
+                    .checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) ==
+                    PackageManager.PERMISSION_GRANTED
+                    &&
+                    ActivityCompat
+                            .checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) ==
+                            PackageManager.PERMISSION_GRANTED;
+
+
+            // here to request the missing permissions, and then overriding
+            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+            //                                          int[] grantResults)
+            // to handle the case where the user grants the permission. See the documentation
+            // for ActivityCompat#requestPermissions for more details.
+            System.out.println("LOCATION permission");
+            System.out.println("check activity compact "+ test );
+        }
+
+        mFusedLocationClient.getLastLocation()
+                .addOnSuccessListener(this, new OnSuccessListener<Location>() {
+                    @Override
+                    public void onSuccess(Location location) {
+                        // Got last known location. In some rare situations this can be null.
+                        if (location != null) {
+                            // Logic to handle location object
+                            System.out.println("LOCATION");
+                            System.out.println(location.toString());
+
+                            double lon= location.getLongitude();
+                            double lat= location.getLatitude();
+                            System.out.println("Latitude: " + lat+" - "+ "Longitude: " +
+                                    lon);
+                           longitude = String.valueOf(lon);
+                           latitude = String.valueOf(lat);
+
+
+                        }
+                    }
+
+                });
+
     }
-
-
-
-
-
-
 
     public void getFile(){
         Intent intent=new Intent(Intent.ACTION_GET_CONTENT);

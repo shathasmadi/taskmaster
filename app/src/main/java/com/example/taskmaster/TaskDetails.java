@@ -26,13 +26,13 @@ public class TaskDetails extends AppCompatActivity {
         TextView taskTitle = findViewById(R.id.textViewr);
         TextView taskDescription = findViewById(R.id.textView9);
         TextView taskState = findViewById(R.id.textView5);
-
+        TextView latAndLon = findViewById(R.id.textView13);
 
         Intent intent= getIntent();
         taskTitle.setText(intent.getExtras().getString("Title"));//set the data use setText
         taskDescription.setText(intent.getExtras().getString("Description"));//set the data use setText
         taskState.setText(intent.getExtras().getString("State"));//set the data use setText
-
+        latAndLon.setText(intent.getExtras().getString("Latitude")+"   "+intent.getExtras().getString("Longitude")+"     ");
 
 //        String title = intent.getExtras().getString("title");
 //        TextView textView= findViewById(R.id.textViewr);
