@@ -149,3 +149,9 @@ Allow users to log out of your application.
 ## lab41 :
 
 - adding the ability to make new task from another applications by using the share text.
+
+
+## lab 42 :
+
+
+- On the Task Detail activity, the location of a Task should be displayed if it exists.

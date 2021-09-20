@@ -48,7 +48,8 @@ public class AddTask extends AppCompatActivity {
     String picture="";
 
     FusedLocationProviderClient mFusedLocationClient;
-
+    String longitude="";
+    String latitude="";
 
     @RequiresApi(api = Build.VERSION_CODES.N)
     @Override
@@ -134,6 +135,8 @@ public class AddTask extends AppCompatActivity {
                         .body(taskDescription.getText().toString())
                         .state(taskState.getText().toString())
                         .image(picture)
+                        .latitude(latitude)
+                        .longitude(longitude)
                         .team(teamOne)
                         .build();
 
@@ -161,7 +164,7 @@ public class AddTask extends AppCompatActivity {
             //    ActivityCompat#requestPermissions
             ActivityCompat.requestPermissions(this, new String[]{
                     Manifest.permission.ACCESS_COARSE_LOCATION,
-                    Manifest.permission.ACCESS_FINE_LOCATION}, 99);
+                    Manifest.permission.ACCESS_FINE_LOCATION}, 20);
 
             boolean test =ActivityCompat
                     .checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) ==
@@ -177,9 +180,8 @@ public class AddTask extends AppCompatActivity {
             //                                          int[] grantResults)
             // to handle the case where the user grants the permission. See the documentation
             // for ActivityCompat#requestPermissions for more details.
-            System.out.println("**************************LOCATION permission*******************************");
-            System.out.println("**********check activity compact "+ test );
-            return;
+            System.out.println("LOCATION permission");
+            System.out.println("check activity compact "+ test );
         }
 
         mFusedLocationClient.getLastLocation()
@@ -189,13 +191,17 @@ public class AddTask extends AppCompatActivity {
                         // Got last known location. In some rare situations this can be null.
                         if (location != null) {
                             // Logic to handle location object
-                            System.out.println("**************************LOCATION*******************************");
+                            System.out.println("LOCATION");
                             System.out.println(location.toString());
 
-                            double longitude= location.getLongitude();
-                            double latitude= location.getLatitude();
-                            System.out.println("Latitude: " + latitude+" - "+ "Longitude: " +
-                                    longitude);
+                            double lon= location.getLongitude();
+                            double lat= location.getLatitude();
+                            System.out.println("Latitude: " + lat+" - "+ "Longitude: " +
+                                    lon);
+                           longitude = String.valueOf(lon);
+                           latitude = String.valueOf(lat);
+
+
                         }
                     }
 

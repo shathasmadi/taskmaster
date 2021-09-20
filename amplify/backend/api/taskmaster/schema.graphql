@@ -4,6 +4,8 @@ type TaskMaster @model @key(name: "byTeam", fields: ["teamID"]) {
   body: String
   state: String
   image: String
+  Latitude: String
+  Longitude: String
   teamID: ID!
   team: Team @connection(fields: ["teamID"])
 }
